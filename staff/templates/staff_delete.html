@@ -1,0 +1,32 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<div class="midde_cont">
+    <div class="container-fluid">
+        <div class="row column_title">
+            <div class="col-md-12">
+                <div class="page_title">
+                    <h2>Delete Staff</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="white_shd full margin_bottom_30">
+                    <div class="padding_infor_info">
+                        <form method="post">
+                            {% csrf_token %}
+                            <p>Are you sure you want to delete "{{ staff.nome }}"?</p>
+                            {% if staff.user %}
+                            <p class="text-warning">Warning: This will also delete the associated user account.</p>
+                            {% endif %}
+                            <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                            <a href="{% url 'staff-list' %}" class="btn btn-secondary">Cancel</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

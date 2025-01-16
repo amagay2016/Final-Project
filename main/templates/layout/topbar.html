@@ -1,0 +1,39 @@
+{% load static %}
+               <!-- topbar -->
+               <div class="topbar">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                   <div class="full">
+                      <button type="button" id="sidebarCollapse" class="sidebar_toggle"><i class="fa fa-bars"></i></button>
+                      <div class="right_topbar">
+                         <div class="icon_info">
+                            <!-- <ul>
+                               <li><a href="#"><i class="fa fa-bell-o"></i><span class="badge">2</span></a></li>
+                            </ul> -->
+                            <ul class="user_profile_dd">
+                               <li>
+                                  <a class="dropdown-toggle" data-toggle="dropdown">
+                                     {% if request.user.staff.profile_photo %}
+                                        <img class="img-responsive rounded-circle" src="{{ request.user.staff.profile_photo.url }}" alt="#" />
+                                     {% else %}
+                                        <img class="img-responsive rounded-circle" src="{% static 'images/avatar.jpg' %}" alt="#" />
+                                     {% endif %}
+                                     {% if request.user.staff.nome %}
+                                        <span class="name_user">{{ request.user.staff.nome }}</span>
+                                     {% else %}
+                                        <span class="name_user">{{ request.user.username }}</span>
+                                     {% endif %}
+                                  </a>
+                                  <div class="dropdown-menu">
+                                     {% if not request.user.is_superuser %}
+                                        <a class="dropdown-item" href="{% url 'user-profile' %}">My Profile</a>
+                                     {% endif %}
+                                     <a class="dropdown-item" href="{% url 'user-logout' %}"><span>Log Out</span> <i class="fa fa-sign-out"></i></a>
+                                  </div>
+                               </li>
+                            </ul>
+                         </div>
+                      </div>
+                   </div>
+                </nav>
+             </div>
+             <!-- end topbar -->

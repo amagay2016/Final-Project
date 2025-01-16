@@ -1,0 +1,97 @@
+{% extends 'layout/base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="midde_cont">
+    <div class="container-fluid">
+        <div class="row column_title">
+            <div class="col-md-12">
+                <div class="page_title">
+                    <h2>{% if form.instance.pk %}Edit{% else %}Create{% endif %} Staff</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                {% if messages %}
+                <div class="container-fluid">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <div class="white_shd full margin_bottom_30">
+                    <div class="padding_infor_info">
+                        <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.nome.id_for_label }}">Name</label>
+                                    {{ form.nome|add_class:"form-control" }}
+                                    {% if form.nome.errors %}
+                                        <div class="invalid-feedback">{{ form.nome.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.email.id_for_label }}">Email</label>
+                                    {{ form.email|add_class:"form-control" }}
+                                    {% if form.email.errors %}
+                                        <div class="invalid-feedback">{{ form.email.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.telefone.id_for_label }}">Phone</label>
+                                    {{ form.telefone|add_class:"form-control" }}
+                                    {% if form.telefone.errors %}
+                                        <div class="invalid-feedback">{{ form.telefone.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.aldeia.id_for_label }}">Village</label>
+                                    {{ form.aldeia|add_class:"form-control" }}
+                                    {% if form.aldeia.errors %}
+                                        <div class="invalid-feedback">{{ form.aldeia.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.pozisaun.id_for_label }}">Position</label>
+                                    {{ form.pozisaun|add_class:"form-control" }}
+                                    {% if form.pozisaun.errors %}
+                                        <div class="invalid-feedback">{{ form.pozisaun.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="{{ form.profile_photo.id_for_label }}">Profile Photo</label>
+                                    {{ form.profile_photo|add_class:"form-control-file" }}
+                                    {% if form.profile_photo.errors %}
+                                        <div class="invalid-feedback">{{ form.profile_photo.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Save</button>
+                            <a href="{% url 'staff-list' %}" class="btn btn-secondary">Cancel</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    document.getElementById('id_create_user').addEventListener('change', function() {
+        var credentialsDiv = document.querySelector('.user-credentials');
+        credentialsDiv.style.display = this.checked ? 'block' : 'none';
+    });
+</script>
+{% endblock %}
+{% endblock %} 

@@ -1,0 +1,189 @@
+{% extends 'layout/base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="midde_cont">
+    <div class="container-fluid">
+        <div class="row column_title">
+            <div class="col-md-12">
+                <div class="page_title">
+                    <h2>{{ title }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            {% if messages %}
+            <div class="container-fluid">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            <div class="col-md-12">
+                <div class="white_shd full margin_bottom_30">
+                    <div class="full graph_head">
+                        <div class="heading1 margin_0">
+                            <h2>Detalho Ficha Familia</h2>
+                        </div>
+                    </div>
+                    <div class="padding_infor_info">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p><strong>No. Ficha:</strong> {{ ficha.no_ficha }}</p>
+                            </div>
+                            <div class="col-md-4">
+                                <p><strong>Chefe Familia:</strong> {{ ficha.chefe_familia }}</p>
+                            </div>
+                            <div class="col-md-4">
+                                <p><strong>Aldeia:</strong> {{ ficha.aldeia }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="white_shd full margin_bottom_30">
+                    <div class="full graph_head">
+                        <div class="heading1 margin_0">
+                            <h2>{% if editing_pasiente %}Altera{% else %}Aumenta{% endif %} Pasiente</h2>
+                        </div>
+                    </div>
+                    <div class="padding_infor_info">
+                        <form method="post" class="needs-validation" novalidate>
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <div class="col-md-3 mb-3">
+                                    <label>Naran</label>
+                                    {{ form.nome|add_class:"form-control" }}
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label>Sexu</label>
+                                    {{ form.sexo|add_class:"form-control" }}
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label>Profisaun</label>
+                                    {{ form.profisaun|add_class:"form-control" }}
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label>Enderesu</label>
+                                    {{ form.hela_fatin|add_class:"form-control" }}
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa {% if editing_pasiente %}fa-save{% else %}fa-plus{% endif %}"></i> 
+                                {% if editing_pasiente %}Altera{% else %}Aumenta{% endif %}
+                            </button>
+                            {% if editing_pasiente %}
+                                <a href="{% url 'ficha-detail' ficha.no_ficha %}" class="btn btn-secondary">
+                                    <i class="fa fa-times"></i> Kansela
+                                </a>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+
+                <div class="white_shd full margin_bottom_30">
+                    <div class="full graph_head">
+                        <div class="heading1 margin_0">
+                            <h2>Lista Pasientes</h2>
+                        </div>
+                    </div>
+                    <div class="table_section padding_infor_info">
+                        <table class="table table-striped table-bordered dt-responsive nowrap datatable">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Naran</th>
+                                    <th>Sexu</th>
+                                    <th>Profisaun</th>
+                                    <th>Enderesu</th>
+                                    <th>Status Konsulta</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for pasiente in pasientes %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td><a href="{% url 'patient-history' pasiente.id %}" class="text-primary">{{ pasiente.nome }}</a></td>
+                                    <td>{{ pasiente.sexo }}</td>
+                                    <td>{{ pasiente.profisaun }}</td>
+                                    <td>{{ pasiente.hela_fatin }}</td>
+                                    <td>
+                                        {% if pasiente.id in registered_patients %}
+                                            {% with registo=pasiente.registo_set.last %}
+                                                {% if registo %}
+                                                    {{ registo.status }}
+                                                {% endif %}
+                                            {% endwith %}
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if pasiente.id not in registered_patients %}
+                                            <a href="{% url 'pasiente-update' ficha.no_ficha pasiente.id %}" class="btn btn-success btn-sm">
+                                                <i class="fa fa-pencil"></i> Edit
+                                            </a>
+                                            <a href="{% url 'pasiente-delete' pasiente.id %}" class="btn btn-danger btn-sm">
+                                                <i class="fa fa-trash"></i> Delete
+                                            </a>
+                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#registoModal" onclick="setPasienteId('{{ pasiente.id }}')" title="Registo Pasiente">
+                                                <i class="fa fa-file-text"></i> Registo
+                                            </button>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Registo Modal -->
+<div class="modal fade" id="registoModal" tabindex="-1" role="dialog" aria-labelledby="registoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registoModalLabel">Aumenta Registo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="registo" value="true">
+                <input type="hidden" name="pasiente_id" id="pasiente_id">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Kategoria</label>
+                        {{ registo_form.categoria|add_class:"form-control" }}
+                    </div>
+                    <div class="form-group">
+                        <label>Doutor</label>
+                        {{ registo_form.doctor|add_class:"form-control" }}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i> Kansela</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Rai</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %} 
+{% block extra_js %}
+<script>
+    function setPasienteId(id) {
+        document.getElementById('pasiente_id').value = id;
+    }
+</script>
+{% endblock %}

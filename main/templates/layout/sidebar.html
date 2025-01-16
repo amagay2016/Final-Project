@@ -1,0 +1,87 @@
+{% load static %}
+<!-- Sidebar  -->
+<nav id="sidebar">
+    <div class="sidebar_blog_1">
+       <div class="sidebar-header">
+          <div class="logo_section">
+             <a href="{% url 'dashboard' %}"><img class="logo_icon img-responsive" src="{% static 'images/logo/logo_icon.png' %}" alt="#" /></a>
+          </div>
+       </div>
+       <div class="sidebar_user_info">
+          <div class="icon_setting"></div>
+          <div class="user_profle_side">
+             <div class="user_img">
+                {% if request.user.staff.profile_photo %}
+                    <img class="img-responsive" src="{{ request.user.staff.profile_photo.url }}" alt="#" />
+                {% else %}
+                    <img class="img-responsive" src="{% static 'images/avatar.jpg' %}" alt="#" />
+                {% endif %}
+             </div>
+             <div class="user_info">
+                {% if request.user.staff.nome %}
+                    <h6>{{ request.user.staff.nome }}</h6>
+                {% else %}
+                    <h6>{{ request.user.username }}</h6>
+                {% endif %}
+                <p><span class="online_animation"></span> Online</p>
+             </div>
+          </div>
+       </div>
+    </div>
+    <div class="sidebar_blog_2">
+       <h4>Menu</h4>
+       <ul class="list-unstyled components">
+          <li>
+             <a href="{% url 'dashboard' %}">
+                <i class="fa fa-dashboard yellow_color"></i> 
+                <span>Dashboard</span>
+             </a>
+          </li>
+          {% if request.user.is_superuser %}
+          <li>
+             <a href="#custom" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                <i class="fa fa-cogs purple_color"></i> 
+                <span>Custom Data</span>
+             </a>
+             <ul class="collapse list-unstyled" id="custom">
+                <li><a href="{% url 'categoria-list' %}">> Categoria</a></li>
+             </ul>
+          </li>
+          <li>
+             <a href="{% url 'staff-list' %}">
+                <i class="fa fa-users blue_color"></i> 
+                <span> Staff Management</span>
+             </a>
+          </li>
+          {% endif %}
+          {% if request.user.groups.all.0.name == 'staff' %}
+          <li>
+             <a href="#registo" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                <i class="fa fa-file-text green_color"></i> 
+                <span>Registrasaun</span>
+             </a>
+             <ul class="collapse list-unstyled" id="registo">
+                <li><a href="{% url 'ficha-list' %}">> Ficha Familia</a></li>
+             </ul>
+          </li>
+          {% endif %}
+          {% if request.user.groups.all.0.name == 'doutor' %}
+          <li>
+            <a href="{% url 'my-patients' %}">
+               <i class="fa fa-stethoscope red_color"></i> 
+               <span>Konsulta</span>
+            </a>
+          </li>
+          {% endif %}
+          {% if request.user.groups.all.0.name == 'diretor' %}
+          <li>
+            <a href="{% url 'report-dashboard' %}">
+               <i class="fa fa-stethoscope red_color"></i> 
+               <span>Relatorio</span>
+            </a>
+          </li>
+          {% endif %}
+       </ul>
+    </div>
+ </nav>
+ <!-- end sidebar -->

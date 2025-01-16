@@ -1,0 +1,66 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+{% block content %}
+<div class="midde_cont">
+    <div class="container-fluid">
+        <div class="row column_title">
+            <div class="col-md-12">
+                <div class="page_title">
+                    <h2>{{ title }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="white_shd full margin_bottom_30">
+                    <div class="full graph_head">
+                        <div class="heading1 margin_0">
+                            <h2>Informasaun Pasiente</h2>
+                        </div>
+                    </div>
+                    <div class="padding_infor_info">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Naran:</strong> {{ pasiente.nome }}</p>
+                                <p><strong>Sexu:</strong> {{ pasiente.sexo }}</p>
+                                <p><strong>Profisaun:</strong> {{ pasiente.profisaun }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Ficha Familia:</strong> {{ pasiente.ficha_familia.no_ficha }}</p>
+                                <p><strong>Enderesu:</strong> {{ pasiente.hela_fatin }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="white_shd full margin_bottom_30">
+                    <div class="table_section padding_infor_info">
+                        <table class="table table-striped table-bordered dt-responsive nowrap datatable">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Data Diagnosa</th>
+                                    <th>Kategoria</th>
+                                    <th>Doutor</th>
+                                    <th>Diagnosa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for diagnose in diagnoses %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ diagnose.data_diagnosaun }}</td>
+                                    <td>{{ diagnose.registo.categoria }}</td>
+                                    <td>{{ diagnose.diagnose_by.nome }}</td>
+                                    <td>{{ diagnose.diagnosaun }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

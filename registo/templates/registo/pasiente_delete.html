@@ -1,0 +1,33 @@
+{% extends 'layout/base.html' %}
+{% block content %}
+<div class="midde_cont">
+    <div class="container-fluid">
+        <div class="row column_title">
+            <div class="col-md-12">
+                <div class="page_title">
+                    <h2>{{ title }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="white_shd full margin_bottom_30">
+                    <div class="full graph_head">
+                        <div class="heading1 margin_0">
+                            <h2>Delete Konfirmasaun</h2>
+                        </div>
+                    </div>
+                    <div class="padding_infor_info">
+                        <p>Ita boot hakarak delete pasiente <strong>{{ pasiente.nome }}</strong>?</p>
+                        <form method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</button>
+                            <a href="{% url 'ficha-detail' ficha.no_ficha %}" class="btn btn-secondary"><i class="fa fa-times"></i> Kansela</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

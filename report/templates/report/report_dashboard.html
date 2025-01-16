@@ -1,0 +1,151 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+<div class="midde_cont">
+    <div class="container-fluid">
+        <div class="row column_title">
+            <div class="col-md-12">
+                <div class="page_title text-center">
+                    <h2 class="display-4">Dashboard Relatoriu</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">Distribuisaun por Generu</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="genderChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="card-title mb-0">Distribuisaun por Profisaun</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="professionChart" width="400" height="180"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="card-title mb-0">Filtru Pasiente</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="get" class="form-inline mb-3">
+                            <div class="form-group mr-3">
+                                <label class="mr-2">{{ date_form.start_date.label_tag }}</label>
+                                {{ date_form.start_date }}
+                            </div>
+                            <div class="form-group mr-3">
+                                <label class="mr-2">{{ date_form.end_date.label_tag }}</label>
+                                {{ date_form.end_date }}
+                            </div>
+                            <button type="submit" class="btn btn-primary">Filtru</button>
+                        </form>
+                        <table class="table table-hover table-bordered">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Naran</th>
+                                    <th>Sexu</th>
+                                    <th>Profisaun</th>
+                                    <th>Data Registo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for patient in patients %}
+                                <tr>
+                                    <td>{{ patient.nome }}</td>
+                                    <td>{{ patient.sexo }}</td>
+                                    <td>{{ patient.profisaun }}</td>
+                                    <td>{{ patient.registo_set.last.data_registo }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Tetum: Konfigurasaun Chart.js ba genderChart
+    var genderCtx = document.getElementById('genderChart').getContext('2d');
+    var genderChart = new Chart(genderCtx, {
+        type: 'pie',
+        data: {
+            labels: {{ gender_labels|safe }},
+            datasets: [{
+                label: 'Pasiente por Generu',
+                data: {{ gender_data|safe }},
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    // Tetum: Aumenta kor kolor se presiza
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    // Tetum: Aumenta kor kolor se presiza
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Distribuisaun Pasiente por Generu'
+                }
+            }
+        }
+    });
+
+    // Tetum: Konfigurasaun Chart.js ba professionChart
+    var professionCtx = document.getElementById('professionChart').getContext('2d');
+    var professionChart = new Chart(professionCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ profession_labels|safe }},
+            datasets: [{
+                label: 'Pasiente por Profisaun',
+                data: {{ profession_data|safe }},
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false,
+                },
+                title: {
+                    display: true,
+                    text: 'Distribuisaun Pasiente por Profisaun'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+{% endblock %} 

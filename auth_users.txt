@@ -1,0 +1,17 @@
+user level:
+1. admin
+2. doutor
+3. staff
+
+authentication:
+- admin
+username : john
+password : password_123
+
+- doutor
+username : (bele hre iha lista staff / usuariu ho pozisaun doutor)
+password : password_123
+
+- staff 
+username : (bele hre iha lista staff / usuariu ho pozisaun resepsionista)
+password : password_123

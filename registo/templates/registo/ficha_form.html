@@ -1,0 +1,51 @@
+{% extends 'layout/base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="midde_cont">
+    <div class="container-fluid">
+        <div class="row column_title">
+            <div class="col-md-12">
+                <div class="page_title">
+                    <h2>{{ title }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="white_shd full margin_bottom_30">
+                    <div class="padding_infor_info">
+                        <form method="post" class="needs-validation" novalidate>
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <div class="col-md-4 mb-3">
+                                    <label>No. Ficha</label>
+                                    {{ form.no_ficha|add_class:"form-control" }}
+                                    {% if form.no_ficha.errors %}
+                                        <div class="invalid-feedback">{{ form.no_ficha.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label>Chefe Familia</label>
+                                    {{ form.chefe_familia|add_class:"form-control" }}
+                                    {% if form.chefe_familia.errors %}
+                                        <div class="invalid-feedback">{{ form.chefe_familia.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label>Aldeia</label>
+                                    {{ form.aldeia|add_class:"form-control" }}
+                                    {% if form.aldeia.errors %}
+                                        <div class="invalid-feedback">{{ form.aldeia.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Rai</button>
+                            <a href="{% url 'ficha-list' %}" class="btn btn-secondary"><i class="fa fa-times"></i> Kansela</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

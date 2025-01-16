@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <!-- basic -->
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <!-- mobile metas -->
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+      <!-- site metas -->
+      <title>{{ title }}</title>
+      <meta name="keywords" content="">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <!-- site icon -->
+      <link rel="icon" href="{% static 'images/fevicon.png' %}" type="image/png" />
+      <!-- bootstrap css -->
+      <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+      <!-- site css -->
+      <link rel="stylesheet" href="{% static 'style.css' %}" />
+      <!-- responsive css -->
+      <link rel="stylesheet" href="{% static 'css/responsive.css' %}" />
+      <!-- select bootstrap -->
+      <link rel="stylesheet" href="{% static 'css/bootstrap-select.css' %}" />
+      <!-- scrollbar css -->
+      <link rel="stylesheet" href="{% static 'css/perfect-scrollbar.css' %}" />
+      <!-- custom css -->
+      <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+      <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]-->
+      <!-- DataTables CSS -->
+      <link rel="stylesheet" type="text/css" href="{% static 'datatable/css/dataTables.bootstrap4.min.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'datatable/css/responsive.bootstrap4.min.css' %}">
+   </head>
+   <body class="dashboard dashboard_1">
+      <div class="full_container">
+         <div class="inner_container">
+            {% include 'layout/sidebar.html' %}
+            <div id="content">
+                {% include 'layout/topbar.html' %}
+                {% block content %}
+                {% endblock %}
+            </div>
+         </div>
+      </div>
+      <!-- jQuery -->
+      <script src="{% static 'js/jquery.min.js' %}"></script>
+      <script src="{% static 'js/popper.min.js' %}"></script>
+      <script src="{% static 'js/bootstrap.min.js' %}"></script>
+      <!-- wow animation -->
+      <script src="{% static 'js/animate.js' %}"></script>
+      <!-- select country -->
+      <script src="{% static 'js/bootstrap-select.js' %}"></script>
+      <!-- owl carousel -->
+      <script src="{% static 'js/owl.carousel.js' %}"></script> 
+      <!-- chart js -->
+      <script src="{% static 'js/Chart.min.js' %}"></script>
+      <script src="{% static 'js/Chart.bundle.min.js' %}"></script>
+      <script src="{% static 'js/utils.js' %}"></script>
+      <script src="{% static 'js/analyser.js' %}"></script>
+      <!-- nice scrollbar -->
+      <script src="{% static 'js/perfect-scrollbar.min.js' %}"></script>
+      <script>
+         var ps = new PerfectScrollbar('#sidebar');
+      </script>
+      <!-- custom js -->
+      <script src="{% static 'js/custom.js' %}"></script>
+      <!-- DataTables JS -->
+      <script type="text/javascript" src="{% static 'datatable/js/jquery.dataTables.min.js' %}"></script>
+      <script type="text/javascript" src="{% static 'datatable/js/dataTables.bootstrap4.min.js' %}"></script>
+      <script type="text/javascript" src="{% static 'datatable/js/dataTables.responsive.min.js' %}"></script>
+      <script type="text/javascript" src="{% static 'datatable/js/responsive.bootstrap4.min.js' %}"></script>
+
+      <script>
+          $(document).ready(function() {
+              $('.datatable').DataTable({
+                  responsive: true,
+                  columnDefs: [
+                      { orderable: false, targets: [-1] }
+                  ],
+                  language: {
+                      search: "Search:",
+                      lengthMenu: "Show _MENU_ entries",
+                      info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                      paginate: {
+                          first: "First",
+                          last: "Last",
+                          next: "Next",
+                          previous: "Previous"
+                      }
+                  }
+              });
+          });
+      </script>
+      {% block extra_js %}
+      {% endblock %}
+   </body>
+</html>
