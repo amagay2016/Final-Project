@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from datetime import datetime
 from registo.models import Pasiente, Registo
 from staff.models import Staff
@@ -20,3 +21,7 @@ def dashboard(request):
         ).select_related('pasiente', 'doctor')
     }
     return render(request, 'dashboard.html', context)
+
+def logoutUser(request):
+    logout(request)
+    return redirect('/')

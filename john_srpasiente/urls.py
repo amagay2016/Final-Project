@@ -20,6 +20,7 @@ from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
+from main.views import logoutUser
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,6 +30,6 @@ urlpatterns = [
     path('registo/', include('registo.urls')),
     path('report/', include('report.urls')),
     path('login/', auth_views.LoginView.as_view(template_name='auth/login.html',redirect_authenticated_user=True), name='user-login'),
-    path('logout/', auth_views.LogoutView.as_view(template_name='auth/login.html',next_page='user-login'), name='user-logout'),
+    path('logout/', logoutUser, name='user-logout'),
     path('error/', TemplateView.as_view(template_name='auth/404.html'), name='custom-error'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
